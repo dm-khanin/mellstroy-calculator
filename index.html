@@ -5,30 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Калькулятор иксов $MELLSTROY</title>
   <style>
-    body {
+    .root {
       font-family: Arial, sans-serif;
       margin: 20px;
+      position: relative;
     }
 
     .container {
       max-width: 600px;
       margin: auto;
+      position: relative;
     }
 
     .is-hidden {
       display: none;
     }
+
+    .x-count-item {
+      position: relative;
+    }
+
+    .logo {
+      height: 17px;
+      margin-right: 4px;
+      position: relative;
+      top: 2px;
+    }
   </style>
 </head>
-<body>
+<body class="root">
 <main class="container">
-  <h1>Калькулятор иксов $MELLSTROY </h1>
+  <h1>Калькулятор иксов $MELLSTROY</h1>
   <section class="x-count is-hidden">
   </section>
   <section class="invest-box is-hidden">
     <form action="">
-      <label for="investment">Я вложу $</label>
-      <input type="number" class="investment-input" min="0" step="1" required placeholder="Сумма инвестиций"/>
+      <label for="investment-input">
+        Я вложу $
+        <input type="number" class="investment-input" min="0" step="1" required placeholder="Сумма инвестиций"/>
+      </label>
       <button class="calculate" type="button">Рассчитать</button>
       <button class="reset" type="reset">Очистить</button>
     </form>

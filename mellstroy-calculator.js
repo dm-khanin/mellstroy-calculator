@@ -4,6 +4,13 @@
   const SHIBA_INU_COIN_ID = '5994';
   const PEPE_COIN_ID = '24478';
 
+  const logos = {
+    [MELLSTROY_COIN_ID]: 'https://s2.coinmarketcap.com/static/img/coins/64x64/32016.png',
+    [DOGE_COIN_ID]: 'https://s2.coinmarketcap.com/static/img/coins/64x64/74.png',
+    [SHIBA_INU_COIN_ID]: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5994.png',
+    [PEPE_COIN_ID]: 'https://s2.coinmarketcap.com/static/img/coins/64x64/24478.png',
+  };
+
   const getCoinsInfo = async () => {
     const CMC_URL = 'https://khanin.dev/api/coin-info';
     const result = {
@@ -54,6 +61,13 @@
     return rounded.toLocaleString('ru');
   };
 
+  const getLogoElem = (coinId) => {
+    const logo = document.createElement('img');
+    logo.src = logos[coinId];
+    logo.classList.add('logo');
+    return logo;
+  };
+
   const getXCountCont = (coinsInfo, container) => {
     const { marketCap: mellMarketCap } = coinsInfo[MELLSTROY_COIN_ID];
     Object.entries(coinsInfo)
@@ -65,8 +79,12 @@
         const xCount = Math.round(marketCap / mellMarketCap);
         const element = document.createElement('div');
 
-        element.textContent = `${name} ($${symbol}) MCap ${format(marketCap)} - ${format(xCount)} иксов`;
+        const textElem = document.createElement('span');
+        textElem.textContent = `${name} ($${symbol}) MCap ${format(marketCap)} - ${format(xCount)} иксов`;
         element.classList.add('x-count-item');
+
+        const logo = getLogoElem(coinId);
+        element.append(logo, textElem);
 
         container.appendChild(element);
       });
@@ -110,15 +128,22 @@
     const mellstroyInfo = coinsInfo[MELLSTROY_COIN_ID];
     const { symbol: mellSymbol, price: mellPrice, marketCap: mellMarketCap } = mellstroyInfo;
 
-    console.log(mellstroyInfo);
-
     const mellstroyElem = document.createElement('div');
-    mellstroyElem.textContent = `Mellstroy ($${mellSymbol}) MCap ${format(mellMarketCap)}, цена токена ${format(mellPrice)}`;
+    const textElem = document.createElement('span');
+    textElem.textContent = `Mellstroy ($${mellSymbol}) MCap ${format(mellMarketCap)}, цена токена ${format(mellPrice)}`;
+
+    mellstroyElem.append(getLogoElem(MELLSTROY_COIN_ID), textElem);
     container.prepend(document.createElement('br'));
     container.prepend(mellstroyElem);
 
     const calcBtn = document.querySelector('.calculate');
     calcBtn.addEventListener('click', e => calculateListener(e, coinsInfo));
+
+    document.forms[0].addEventListener('submit', (e) => {
+      e.preventDefault();
+      calculateListener(e, coinsInfo);
+      return false;
+    });
 
     const resetBtn = document.querySelector('.reset');
     resetBtn.addEventListener('click', () => {
