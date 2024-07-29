@@ -150,24 +150,3 @@
 
   cont.append(xCountContainer, calcContainer);
 })();
-
-
-async function calculate() {
-  const investment = document.getElementById('investment').value;
-  const marketCaps = await getMarketCaps();
-
-  const currentCap = marketCaps.MELLSTROY;
-  const competitors = ['PEPE', 'DOGE', 'SHIBA'];
-
-  let results = '';
-
-  competitors.forEach(comp => {
-    const targetCap = marketCaps[comp];
-    const xFactor = targetCap / currentCap;
-    const earnings = investment * xFactor;
-
-    results += `<p>Если MELLSTROY достигнет капитализации ${comp}, вы заработаете: $${earnings.toFixed(2)} (${xFactor.toFixed(2)} иксов)</p>`;
-  });
-
-  document.getElementById('results').innerHTML = results;
-}
